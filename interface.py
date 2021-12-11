@@ -84,13 +84,15 @@ if navi == option[0]:
                 
             url = fix_linkp(name)
             img = get_image(url)
-            if len(pd.read_html(url, header = 0)) >= 6:
-                p_opt = {"Per Game (regular season)": 0, "Per Game (Playoff)": 1, "Total (regular season)": 2, "Total (Playoff)": 3, "Advance (regular seasons)": 4, "Advance(Playoff)": 5}
-            else:
-                p_opt = {"Per Game (regular season)": 0, "Total (regular season)": 1, "Advance (regular seasons)": 2}
-            wt = st.sidebar.radio("Which information about the team do you want to see?", p_opt.keys())
+            try:
+                if len(pd.read_html(url, header = 0)) >= 6:
+                    p_opt = {"Per Game (regular season)": 0, "Per Game (Playoff)": 1, "Total (regular season)": 2, "Total (Playoff)": 3, "Advance (regular seasons)": 4, "Advance(Playoff)": 5}
+                else:
+                    p_opt = {"Per Game (regular season)": 0, "Total (regular season)": 1, "Advance (regular seasons)": 2}
+            except:
+                st.error("This data is not available, please enter another name")
             
-                
+            wt = st.sidebar.radio("Which information about the team do you want to see?", p_opt.keys())
             df = load_data(url, p_opt[wt])
             df = df.dropna(axis = 0, how = "all")
             df = df.dropna(axis = 1, how = "all")
