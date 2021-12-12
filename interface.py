@@ -1,6 +1,5 @@
 import streamlit as st
 import matplotlib.pyplot as mplt
-import numpy as np
 from random_tp import *
 from data import *
 import pandas as pd
@@ -20,7 +19,7 @@ if navi == option[0]:
         if m_opt == met[0]:
             method = st.sidebar.radio("how to choose team", ["Random", "Manual input"])
             if method == "Random":
-                name = random_picker(1, seed)
+                name = random_picker(1)
                 
             else:
                 name = st.sidebar.text_input("enter team name:")
@@ -77,7 +76,7 @@ if navi == option[0]:
     if m_opt == met[1]:
         method = st.sidebar.radio("how to choose Player", ["Random", "Manual input"])
         if method == "Random":
-            name = random_picker(0, seed)
+            name = random_picker(0)
         else:
             name = st.sidebar.text_input("enter player name:")
         if name:
@@ -107,14 +106,17 @@ if navi == option[0]:
                 if apply:
                     dr = df.index[df["Season"] == "Career"].tolist()
                     df = df.drop(df.tail(len(df)-dr[0]).index)
+                    
                     if "Total" in wt:
                         clean_player_data_total(df)
                     elif "Per Game" in wt:
                         clean_player_data_pergame(df)
                     for i in vis:
                         mplt.plot(df["Season"], df[i], marker = ".")
-                        st.header(f"Summary of {i}")
-                        stat_summary(df, i, "Season")
+                        
+                        if len(df) > 2:
+                            st.header(f"Summary of {i}")
+                            stat_summary(df, i, "Season")
                         mplt.legend(labels = vis)
                         mplt.xticks(rotation = 90)
                     gr = mplt.show()
@@ -189,6 +191,10 @@ TOV% - Turnover Percentage (available since the 1977-78 season in the NBA); the 
 
 TRB - Total Rebounds (available since the 1950-51 season)
 
-TRB% - Total Rebound Percentage (available since the 1970-71 season in the NBA); the formula is 100 * (TRB * (Tm MP / 5)) / (MP * (Tm TRB + Opp TRB)). Total rebound percentage is an estimate of the percentage of available rebounds a player grabbed while he was on the floor.""")
+TRB% - Total Rebound Percentage (available since the 1970-71 season in the NBA); the formula is 100 * (TRB * (Tm MP / 5)) / (MP * (Tm TRB + Opp TRB)). Total rebound percentage is an estimate of the percentage of available rebounds a player grabbed while he was on the floor.
+PER - Player Efficiency Rating (available since the 1951-52 season); PER is a rating developed by ESPN.com columnist John Hollinger. In John's words, "The PER sums up all a player's positive accomplishments, subtracts the negative accomplishments, and returns a per-minute rating of a player's performance." Please see the article Calculating PER for more information.
+Poss - Possessions (available since the 1973-74 season in the NBA); the formula for teams is 0.5 * ((Tm FGA + 0.4 * Tm FTA - 1.07 * (Tm ORB / (Tm ORB + Opp DRB)) * (Tm FGA - Tm FG) + Tm TOV) + (Opp FGA + 0.4 * Opp FTA - 1.07 * (Opp ORB / (Opp ORB + Tm DRB)) * (Opp FGA - Opp FG) + Opp TOV)). This formula estimates possessions based on both the team's statistics and their opponent's statistics, then averages them to provide a more stable estimate. Please see the article Calculating Individual Offensive and Defensive Ratings for more informatio
+PTS - Points
+""")
                        
 st.set_option('deprecation.showPyplotGlobalUse', False)
