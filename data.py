@@ -94,6 +94,7 @@ def clean_player_data_pergame(df):
     # for countable columns return sum of columns of same lable
     # for ratio columns return mean of columns of the same lable
     # df: dataframe
+    df[df["Tm"].str.contains("Did Not Play")==False]
     c = df.groupby("Season")
     for i in c.groups:
         if len(i) > 1:
@@ -107,6 +108,9 @@ def clean_player_data_total(df):
     # for countable columns return sum of columns of same lable
     # for ratio columns return mean of columns of the same lable
     # df: dataframe
+    
+    df[df["Tm"].str.contains("Did Not Play")==False]
+    
     c = df.groupby("Season")
     for i in c.groups:
         if len(i) > 1:

@@ -44,7 +44,6 @@ Jimmy Butler
 Jayson Tatum
 Paul George
 Chris Paul
-Joel Embiid
 Bam Adebayo
 Devin Booker
 Kyrie Irving
@@ -62,9 +61,8 @@ Paul Millsap
 Chuma Okeke
 Kristaps Porzingis"""
 @st.cache(suppress_st_warning=True)
-def random_picker(cb, seed):
+def random_picker(cb):
     #cb: choose by (1: team, 0: player)
-    rd.seed(seed)
     if cb == 1:
         n = teams.splitlines()
     if cb == 0:
