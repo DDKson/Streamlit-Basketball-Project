@@ -94,7 +94,7 @@ def clean_player_data_pergame(df):
     # for countable columns return sum of columns of same lable
     # for ratio columns return mean of columns of the same lable
     # df: dataframe
-    df[df["Tm"].str.contains("Did Not Play")==False]
+    df = df[df["Tm"].str.contains("Did Not Play")==False]
     c = df.groupby("Season")
     for i in c.groups:
         if len(i) > 1:
@@ -103,13 +103,15 @@ def clean_player_data_pergame(df):
             d["GS"] = d["GS"].sum()
             d[d.columns[7:]] = d[d.columns[7:]].mean().round(3)
             df[df["Season"] == i] = d
+    df = df.drop_duplicates("Season")
+    return df.apply(pd.to_numeric, errors='ignore')
 def clean_player_data_total(df):
     # clean data of a player in pergame section to avoid error in visualizing
     # for countable columns return sum of columns of same lable
     # for ratio columns return mean of columns of the same lable
     # df: dataframe
     
-    df[df["Tm"].str.contains("Did Not Play")==False]
+    df = df[df["Tm"].str.contains("Did Not Play")==False]
     
     c = df.groupby("Season")
     for i in c.groups:
@@ -122,3 +124,5 @@ def clean_player_data_total(df):
                 else:
                     d[j] = d[j].sum()
         df[df["Season"] == i] = d
+    df = df.drop_duplicates("Season")
+    return df.apply(pd.to_numeric, errors='ignore')

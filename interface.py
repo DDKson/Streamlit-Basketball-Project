@@ -7,7 +7,6 @@ import datetime as dt
 
 
 t = dt.datetime.now().year
-seed = dt.datetime.now().hour
 bd = st.container()
 sb = st.container()
 option = ["Statistic summary", "Glossary"]
@@ -108,9 +107,9 @@ if navi == option[0]:
                     df = df.drop(df.tail(len(df)-dr[0]).index)
                     
                     if "Total" in wt:
-                        clean_player_data_total(df)
+                        df = clean_player_data_total(df)
                     elif "Per Game" in wt:
-                        clean_player_data_pergame(df)
+                        df = clean_player_data_pergame(df)
                     for i in vis:
                         mplt.plot(df["Season"], df[i], marker = ".")
                         
